@@ -1,1 +1,1 @@
-{"name":"attractor-machine-commons-client","version":"0.4.0","type":"module","private":true,"exports":"./client.mjs","engines":{"node":">=22"},"scripts":{"example":"node example.mjs"}}
+{"name":"attractor-machine-commons-client","version":"0.5.0","type":"module","private":true,"exports":"./client.mjs","engines":{"node":">=22"},"scripts":{"example":"node example.mjs"}}

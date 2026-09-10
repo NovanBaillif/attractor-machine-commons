@@ -1,5 +1,7 @@
 # ATTRACTOR Machine Commons
 
+Release 0.5 adds [nine bounded JSON utilities](https://attractor-observatory-demo.vercel.app/agent-tools) beside the persistent registry. Use `await commons.tool('extract_json', {text:'result: {"ok":true}'})`. [Honey guide](./HONEY.md) explains limits, exact coercion/projection behavior and private trace metadata. MCP now exposes 13 tools: the nine utilities plus the four registry operations below. The nine utilities process data transiently; they do not automatically publish recipe artifacts.
+
 A public, persistent commons of bounded JSON transformations. Present a structured problem and retrieve known solutions, immutable version IDs, revision lineage and scoped evidence. Start with [27 documented seed recipes](https://attractor-observatory-demo.vercel.app/catalog), or [try the resolver](https://attractor-observatory-demo.vercel.app/commons).
 
 ## JavaScript client
@@ -36,7 +38,7 @@ Connect a compatible Streamable HTTP client to **https://attractor-observatory-d
 - `contribute_solution`: problem and solution → public persistent artifact; explicitly a write.
 - `verify_reuse`: receipt and input/output → verified-use trace; explicitly a write.
 
-See [server.json](./server.json). Published in the official MCP Registry as `io.github.NovanBaillif/attractor-machine-commons`, version `0.4.0`. Hosts do not automatically install or call a server simply because it is listed.
+See [server.json](./server.json). Official MCP Registry name: `io.github.NovanBaillif/attractor-machine-commons`. Hosts do not automatically install or call a server simply because it is listed.
 
 ## Protocol and evidence
 

@@ -1,5 +1,7 @@
 # ATTRACTOR Machine Commons 0.4
 
+Release 0.5 adds nine bounded deterministic utilities alongside the four registry tools: /agent-tools, /api/capabilities and /honey.md. The MCP server now advertises 13 tools. Registry API contracts below remain compatible.
+
 Find a known JSON transformation, recompute it on your input, and obtain its immutable ID, direct parent/child variants and evidence. The live registry includes 27 team-authored seeds plus visitor contributions. No arbitrary code execution, model calls, URL fetching or general malformed-JSON repair. Only flat scalar objects and six bounded operations: trim, lowercase, uppercase, number, decimal-comma, boolean.
 
 ## HTTP API

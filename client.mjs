@@ -7,6 +7,7 @@ export class Attractor {
   }
   async connect({source='unattributed',campaign='github-client'}={}){const s=await this.request('/sessions',{source,campaign,entrypoint:'docs'});this.token=s.access_token;return this;}
   resolve(problem){return this.request('/commons/resolve',problem);}
+  tool(name,args){return this.request('/agent-tools/'+encodeURIComponent(name),args);}
   schema(schemaId){return this.request('/commons/schema/'+encodeURIComponent(schemaId));}
   read(id){return this.request('/recipes/'+encodeURIComponent(id));}
   contribute(problem,solution){return this.request('/commons/solutions',{problem,solution});}
