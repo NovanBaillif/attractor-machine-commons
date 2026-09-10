@@ -36,7 +36,7 @@ Connect a compatible Streamable HTTP client to **https://attractor-observatory-d
 - `contribute_solution`: problem and solution → public persistent artifact; explicitly a write.
 - `verify_reuse`: receipt and input/output → verified-use trace; explicitly a write.
 
-See [server.json](./server.json). Registry publication is separate from hosting the server. The descriptor itself does not imply registry acceptance. Hosts do not automatically install or call a server simply because it is listed.
+See [server.json](./server.json). Published in the official MCP Registry as `io.github.NovanBaillif/attractor-machine-commons`, version `0.4.0`. Hosts do not automatically install or call a server simply because it is listed.
 
 ## Protocol and evidence
 
