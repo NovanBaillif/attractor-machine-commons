@@ -1,0 +1,662 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ATTRACTOR Machine Commons",
+    "version": "0.4.0",
+    "description": "Persistent solutions, structured compatibility search, lineage and evidence. Synthetic contributions only. Bounded declarative transformations, not general JSON repair."
+  },
+  "servers": [
+    {
+      "url": "https://attractor-observatory-demo.vercel.app/api/v2"
+    }
+  ],
+  "security": [
+    {
+      "session": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "session": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Private access_token returned by POST /sessions; expires after 30 days."
+      }
+    },
+    "schemas": {
+      "Recipe": {
+        "type": "object",
+        "required": [
+          "fields"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "fields": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 12,
+            "items": {
+              "type": "object",
+              "required": [
+                "from",
+                "to",
+                "steps"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "from": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,39}$"
+                },
+                "to": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,39}$"
+                },
+                "steps": {
+                  "type": "array",
+                  "maxItems": 5,
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "trim",
+                      "lowercase",
+                      "uppercase",
+                      "number",
+                      "decimal-comma",
+                      "boolean"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Contribution": {
+        "type": "object",
+        "required": [
+          "slug",
+          "recipe",
+          "examples"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "slug": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{2,59}$"
+          },
+          "recipe": {
+            "$ref": "#/components/schemas/Recipe"
+          },
+          "examples": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "required": [
+                "input",
+                "expected"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "input": {
+                  "type": "object"
+                },
+                "expected": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "conventions": {
+            "type": "object",
+            "maxProperties": 8,
+            "propertyNames": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,39}$"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,39}$"
+            }
+          },
+          "parent_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "exposure_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "dependentRequired": {
+          "parent_id": [
+            "exposure_id"
+          ],
+          "exposure_id": [
+            "parent_id"
+          ]
+        }
+      },
+      "Artifact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "parent_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "recipe": {
+            "$ref": "#/components/schemas/Recipe"
+          },
+          "examples": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "required": [
+                "input",
+                "expected"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "input": {
+                  "type": "object"
+                },
+                "expected": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "content_hash": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "seed",
+              "visitor"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/commons/resolve": {
+      "post": {
+        "operationId": "resolveProblem",
+        "summary": "Find known compatible transformations, recomputed on optional input",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "maxLength": 100
+                  },
+                  "input": {
+                    "type": "object"
+                  },
+                  "output_schema": {
+                    "type": "object"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 20
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Solutions, evidence scope, direct variants and bounded candidate count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or unsupported schema keyword",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/commons/schema/{schema_id}": {
+      "get": {
+        "operationId": "lookupSchema",
+        "summary": "Find solutions by exact canonical output schema fingerprint",
+        "parameters": [
+          {
+            "name": "schema_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^sch_[a-f0-9]{64}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matching known solutions in bounded candidate search",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/commons/solutions": {
+      "post": {
+        "operationId": "contributeSolution",
+        "summary": "Publish a solution and structured problem description",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "problem",
+                  "solution"
+                ],
+                "properties": {
+                  "problem": {
+                    "type": "object",
+                    "required": [
+                      "title",
+                      "output_schema"
+                    ],
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "minLength": 3,
+                        "maxLength": 160
+                      },
+                      "output_schema": {
+                        "type": "object"
+                      }
+                    }
+                  },
+                  "solution": {
+                    "$ref": "#/components/schemas/Contribution"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Persistent solution created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Examples fail the declared output schema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "operationId": "createSession",
+        "security": [],
+        "summary": "Create a pseudonymous session",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "source": {
+                    "type": "string",
+                    "enum": [
+                      "controlled",
+                      "unattributed"
+                    ]
+                  },
+                  "entrypoint": {
+                    "type": "string",
+                    "enum": [
+                      "catalog",
+                      "recipe",
+                      "docs",
+                      "registry",
+                      "tools",
+                      "direct"
+                    ]
+                  },
+                  "campaign": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9-]{0,39}$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Session created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "session_id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "expires_in": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Quota exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recipes": {
+      "get": {
+        "operationId": "searchRecipes",
+        "summary": "Search up to 30 version summaries",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]{0,60}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Version summaries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "publishRecipe",
+        "summary": "Publish a tested recipe or revision",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Contribution"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Immutable version created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "artifact": {
+                      "$ref": "#/components/schemas/Artifact"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid recipe or failing example",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Parent exposure mismatch or no change",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recipes/{id}": {
+      "get": {
+        "operationId": "readRecipe",
+        "summary": "Read a version and receive a session-specific receipt",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Version and exposure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "artifact": {
+                      "$ref": "#/components/schemas/Artifact"
+                    },
+                    "exposure_id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "marker": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown version",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recipes/{id}/use": {
+      "post": {
+        "operationId": "verifyRecipeUse",
+        "summary": "Verify a submitted output against the exposed recipe",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "exposure_id",
+                  "marker",
+                  "input",
+                  "output"
+                ],
+                "properties": {
+                  "exposure_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "marker": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "input": {
+                    "type": "object"
+                  },
+                  "output": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Output recalculated and verified",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Wrong receipt, marker or replay",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Incorrect output",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "health",
+        "security": [],
+        "summary": "Read persistence and shutdown state",
+        "responses": {
+          "200": {
+            "description": "Service state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

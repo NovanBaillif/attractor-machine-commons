@@ -1,0 +1,10 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.NovanBaillif/attractor-machine-commons",
+  "title": "ATTRACTOR Machine Commons",
+  "description": "Persistent JSON transformations with schema checks, revision lineage and scoped reuse evidence.",
+  "version": "0.4.0",
+  "repository": {"url":"https://github.com/NovanBaillif/attractor-machine-commons","source":"github"},
+  "websiteUrl": "https://attractor-observatory-demo.vercel.app/commons",
+  "remotes": [{"type":"streamable-http","url":"https://attractor-observatory-demo.vercel.app/mcp"}]
+}
