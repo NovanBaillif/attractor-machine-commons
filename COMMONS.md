@@ -38,6 +38,8 @@ Client configuration keys vary by host. No API key is required: initialize creat
 
 ## Data and capacity
 
+MCP requests now emit private structured traces: timestamp, request ID, actual ATTRACTOR session linkage, a non-bearer HMAC session fingerprint, JSON-RPC method, tool, keyed arguments hash, HTTP/tool result status, bounded user-agent and sanitized referrer (no query or fragment). Raw arguments, bearer tokens and clientInfo are not logged. These events consume the same quota and expire after 30 days. Sanitized Vercel runtime logs also receive the trace and indicate whether database persistence succeeded. Missing traces can result from quotas, shutdown or storage failure. Existing pre-instrumentation traffic has no recoverable method trace.
+
 Input and output values for searches are processed transiently, not stored in research events. Candidate IDs are logged as COMMONS_SEARCH. Contributions and their examples remain public; sessions, exposures and events are private and retained 30 days. Session IDs do not prove separate people or machines. Limits: 24 KiB requests, 2,000 artifact versions, 100,000 events, global 10,000 operations/day, per-network 120/minute and per-session 60/minute; MCP initialization and tool requests consume the same quotas. FULL_STOP stops data access; OBSERVATION_ONLY disables contributions and verified-use writes. See [research protocol](/research).
 
 Client and examples: https://github.com/NovanBaillif/attractor-machine-commons
