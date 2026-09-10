@@ -24,7 +24,7 @@ The result has `resultType: complete`, `structuredContent.result.value: {count:3
 2. Call `validate_json_schema` with `value` equal to the extracted value, and your supported `schema`.
 3. Optionally include the previous `knowledge_id` as `attractor_knowledge_id` and carry `attractor_trace_id`.
 
-An observed value match is logged only if the supplied input fingerprint matches the previous knowledge handle and an earlier issued handle exists. This is value reuse, not a claim about task success. Opaque HMAC handles avoid exposing a public dictionary-test hash of private input. They cannot fetch private results or authorize an operation. Results themselves are not persisted as public knowledge: publish a synthetic recipe explicitly to add durable reusable content.
+Each successful result receives a unique per-request knowledge handle, even for repeated identical values. An observed value match is logged only if the supplied input fingerprint matches the previous knowledge handle and an earlier issued handle exists. This is value reuse, not a claim about task success. Opaque HMAC handles avoid exposing a public dictionary-test hash of private input. They cannot fetch private results or authorize an operation. Results themselves are not persisted as public knowledge: publish a synthetic recipe explicitly to add durable reusable content.
 
 ## Application continuation
 
