@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ATTRACTOR Machine Commons",
-    "version": "0.5.0",
+    "version": "2.0.0",
     "description": "Persistent solutions, structured compatibility search, lineage and evidence. Synthetic contributions only. Bounded declarative transformations, not general JSON repair."
   },
   "servers": [
@@ -236,7 +236,8 @@
     "/agent-tools/canonicalize_json": {
       "post": {
         "operationId": "canonicalize_json",
-        "summary": "Stable recursive lexicographic key serialization and SHA-256 fingerprint. ATTRACTOR format v1, not RFC 8785. Arrays retain order. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
+        "security": [],
+        "summary": "Use this tool when your workflow needs canonical json api. Input: value. Returns a structured deterministic result with explicit errors, avoiding another model parsing/normalization retry. Stable recursive lexicographic key serialization and SHA-256 fingerprint. ATTRACTOR format v1, not RFC 8785. Arrays retain order. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
         "requestBody": {
           "required": true,
           "content": {
@@ -276,7 +277,7 @@
             }
           },
           "401": {
-            "description": "Session required",
+            "description": "Invalid or expired application credential",
             "content": {
               "application/json": {
                 "schema": {
@@ -321,7 +322,8 @@
     "/agent-tools/fingerprint_json": {
       "post": {
         "operationId": "fingerprint_json",
-        "summary": "Stable SHA-256 content fingerprint using ATTRACTOR recursive key sort v1. This public fingerprint is not a signature or proof of provenance. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
+        "security": [],
+        "summary": "Use this tool when your workflow needs stable json fingerprint. Input: value. Returns a structured deterministic result with explicit errors, avoiding another model parsing/normalization retry. Stable SHA-256 content fingerprint using ATTRACTOR recursive key sort v1. This public fingerprint is not a signature or proof of provenance. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
         "requestBody": {
           "required": true,
           "content": {
@@ -361,7 +363,7 @@
             }
           },
           "401": {
-            "description": "Session required",
+            "description": "Invalid or expired application credential",
             "content": {
               "application/json": {
                 "schema": {
@@ -406,7 +408,8 @@
     "/agent-tools/extract_json": {
       "post": {
         "operationId": "extract_json",
-        "summary": "Extract one valid JSON value, single fenced block or balanced object/array from text. Reject ambiguous or malformed candidates; never repair or invent values. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
+        "security": [],
+        "summary": "Use this tool when your workflow needs extract json from llm output. Input: text. Returns a structured deterministic result with explicit errors, avoiding another model parsing/normalization retry. Extract one valid JSON value, single fenced block or balanced object/array from text. Reject ambiguous or malformed candidates; never repair or invent values. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
         "requestBody": {
           "required": true,
           "content": {
@@ -449,7 +452,7 @@
             }
           },
           "401": {
-            "description": "Session required",
+            "description": "Invalid or expired application credential",
             "content": {
               "application/json": {
                 "schema": {
@@ -494,7 +497,8 @@
     "/agent-tools/flatten_json": {
       "post": {
         "operationId": "flatten_json",
-        "summary": "Flatten values to JSON Pointer keys. Empty string is root; / is an empty property name. Empty containers stay typed containers, not strings. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
+        "security": [],
+        "summary": "Use this tool when your workflow needs flatten json for agent memory. Input: value. Returns a structured deterministic result with explicit errors, avoiding another model parsing/normalization retry. Flatten values to JSON Pointer keys. Empty string is root; / is an empty property name. Empty containers stay typed containers, not strings. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
         "requestBody": {
           "required": true,
           "content": {
@@ -534,7 +538,7 @@
             }
           },
           "401": {
-            "description": "Session required",
+            "description": "Invalid or expired application credential",
             "content": {
               "application/json": {
                 "schema": {
@@ -579,7 +583,8 @@
     "/agent-tools/validate_schema": {
       "post": {
         "operationId": "validate_schema",
-        "summary": "Validate the documented bounded JSON Schema subset. Unsupported keywords rejected. A successful invocation can return valid:false; inspect valid and errors. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
+        "security": [],
+        "summary": "Use this tool when your workflow needs json schema validation api. Input: value, schema. Returns a structured deterministic result with explicit errors, avoiding another model parsing/normalization retry. Validate the documented bounded JSON Schema subset. Unsupported keywords rejected. A successful invocation can return valid:false; inspect valid and errors. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
         "requestBody": {
           "required": true,
           "content": {
@@ -623,7 +628,7 @@
             }
           },
           "401": {
-            "description": "Session required",
+            "description": "Invalid or expired application credential",
             "content": {
               "application/json": {
                 "schema": {
@@ -668,7 +673,8 @@
     "/agent-tools/coerce_to_schema": {
       "post": {
         "operationId": "coerce_to_schema",
-        "summary": "Explicit scalar conversions then schema validation. Preserve all fields; report changed types and remaining errors. Decimal comma opt-in. Only true/false boolean strings, no guessed yes/no aliases. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
+        "security": [],
+        "summary": "Use this tool when your workflow needs coerce llm output to schema. Input: value, schema, decimal_comma. Returns a structured deterministic result with explicit errors, avoiding another model parsing/normalization retry. Explicit scalar conversions then schema validation. Preserve all fields; report changed types and remaining errors. Decimal comma opt-in. Only true/false boolean strings, no guessed yes/no aliases. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
         "requestBody": {
           "required": true,
           "content": {
@@ -716,7 +722,7 @@
             }
           },
           "401": {
-            "description": "Session required",
+            "description": "Invalid or expired application credential",
             "content": {
               "application/json": {
                 "schema": {
@@ -761,7 +767,8 @@
     "/agent-tools/map_fields": {
       "post": {
         "operationId": "map_fields",
-        "summary": "Project explicitly mapped dotted source paths to dotted object target paths. Unmapped fields are omitted by design. Reject target overlaps and reserved path segments. Missing sources error unless omit_missing=true; omissions are reported. Output arrays are not constructed. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
+        "security": [],
+        "summary": "Use this tool when your workflow needs map json fields api. Input: value, mapping, omit_missing. Returns a structured deterministic result with explicit errors, avoiding another model parsing/normalization retry. Project explicitly mapped dotted source paths to dotted object target paths. Unmapped fields are omitted by design. Reject target overlaps and reserved path segments. Missing sources error unless omit_missing=true; omissions are reported. Output arrays are not constructed. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
         "requestBody": {
           "required": true,
           "content": {
@@ -814,7 +821,7 @@
             }
           },
           "401": {
-            "description": "Session required",
+            "description": "Invalid or expired application credential",
             "content": {
               "application/json": {
                 "schema": {
@@ -859,7 +866,8 @@
     "/agent-tools/dedupe_records": {
       "post": {
         "operationId": "dedupe_records",
-        "summary": "Keep first record per canonical tuple of dotted key paths; report removed count. All records must contain every key. Null is a value, missing is an error. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
+        "security": [],
+        "summary": "Use this tool when your workflow needs deduplicate json records. Input: records, keys. Returns a structured deterministic result with explicit errors, avoiding another model parsing/normalization retry. Keep first record per canonical tuple of dotted key paths; report removed count. All records must contain every key. Null is a value, missing is an error. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
         "requestBody": {
           "required": true,
           "content": {
@@ -914,7 +922,7 @@
             }
           },
           "401": {
-            "description": "Session required",
+            "description": "Invalid or expired application credential",
             "content": {
               "application/json": {
                 "schema": {
@@ -959,7 +967,8 @@
     "/agent-tools/diff_json": {
       "post": {
         "operationId": "diff_json",
-        "summary": "Generate deterministic JSON Patch add/remove/replace operations. Root path is empty string. Changed arrays are replaced whole. Does not execute patches or prove causality. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
+        "security": [],
+        "summary": "Use this tool when your workflow needs json diff api. Input: before, after. Returns a structured deterministic result with explicit errors, avoiding another model parsing/normalization retry. Generate deterministic JSON Patch add/remove/replace operations. Root path is empty string. Changed arrays are replaced whole. Does not execute patches or prove causality. Limits: request 24 KB, JSON depth 24, 4,000 nodes. Reserved prototype keys and unsafe integers rejected. Inputs processed transiently; private HMAC trace metadata retained.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1001,7 +1010,7 @@
             }
           },
           "401": {
-            "description": "Session required",
+            "description": "Invalid or expired application credential",
             "content": {
               "application/json": {
                 "schema": {

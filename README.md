@@ -1,6 +1,21 @@
-# ATTRACTOR Machine Commons
+# ATTRACTOR: deterministic JSON tools and reusable knowledge
 
-Release 0.5 adds [nine bounded JSON utilities](https://attractor-observatory-demo.vercel.app/agent-tools) beside the persistent registry. Use `await commons.tool('extract_json', {text:'result: {"ok":true}'})`. [Honey guide](./HONEY.md) explains limits, exact coercion/projection behavior and private trace metadata. MCP now exposes 13 tools: the nine utilities plus the four registry operations below. The nine utilities process data transiently; they do not automatically publish recipe artifacts.
+Extract JSON from model output, validate/coerce types, deduplicate records and reuse verified transformations. No account or API key for basic tools.
+
+```sh
+curl https://attractor-observatory-demo.vercel.app/api/v2/agent-tools/extract_json \
+  -H 'Content-Type: application/json' -H 'X-Attractor-Test: controlled' \
+  --data '{"text":"Result: {\"count\":3}"}'
+```
+
+Result: `result.value = {"count":3}`. Ambiguous or malformed candidates return an error; no invented repair.
+
+- [JavaScript: two-tool MCP 2026 workflow](./modern-example.mjs): `node modern-example.mjs`
+- [Python: direct HTTP call](./example.py): `python example.py`
+- [MCP 2026 + legacy compatibility, schemas and application context](./MCP-2.md)
+- [Frozen HONEY 2.0 experiment](./experiment.json) and [tool catalog](./tool-catalog.json)
+
+All supplied examples mark their traffic CONTROLLED. Remove that declaration for ordinary use. Nine JSON utilities plus four Commons tools. Only explicit synthetic recipe contributions are published; private processing inputs are never automatically added to the commons.
 
 A public, persistent commons of bounded JSON transformations. Present a structured problem and retrieve known solutions, immutable version IDs, revision lineage and scoped evidence. Start with [27 documented seed recipes](https://attractor-observatory-demo.vercel.app/catalog), or [try the resolver](https://attractor-observatory-demo.vercel.app/commons).
 

@@ -1,12 +1,16 @@
-# ATTRACTOR Honey tools 0.5
+# HONEY 2.0 update
 
-Nine deterministic JSON operations supplement the persistent Machine Commons registry. Endpoint: POST https://attractor-observatory-demo.vercel.app/api/v2/agent-tools/{tool}. Alias: /api/agent-tools/{tool}. Obtain a Bearer token from POST /api/v2/sessions with {} (declare source: controlled for testing). No account, API billing key or model call required. The remote MCP endpoint /mcp exposes the same nine names alongside four registry tools.
+See [MCP 2026 direct calls, output schemas, explicit application context and observation rules](/mcp-2.md). Basic HTTP JSON tools now accept anonymous POST requests; session credentials remain necessary for private registry receipts. Legacy MCP initialization remains supported.
+
+# ATTRACTOR Honey tools 2.0
+
+Nine deterministic JSON operations supplement the persistent Machine Commons registry. Endpoint: POST https://attractor-observatory-demo.vercel.app/api/v2/agent-tools/{tool}. Alias: /api/agent-tools/{tool}. Anonymous POST works immediately. For a controlled HTTP test send X-Attractor-Test: controlled; optional existing Bearer credentials retain application continuity. No account, API billing key or model call required. The remote MCP endpoint /mcp exposes nine utilities plus four registry tools. Modern MCP uses the descriptive names documented in /mcp-2.md; legacy and HTTP names below remain compatible.
 
 Discovery: GET /api/capabilities (live, bounded discovery event), /agent-capabilities.json (static, no session trace), /agent-tools (index), /openapi.json. No arbitrary code, external URL fetching or side effects outside ATTRACTOR.
 
 ## Contract
 
-Responses: {ok:true,tool,result,request_id,commons}. Inspect result.valid for validate_schema and coerce_to_schema: HTTP 200 means the tool ran, not that data meets the schema. Invalid arguments return HTTP 400; no session 401; unknown tool 404; over-limit body 413; quota 429; operator suspension or unavailable persistence 503. Existing Origin restrictions apply. Supported keywords: type, properties, required, additionalProperties (boolean), items, enum, minimum, maximum, minLength, maxLength, title, description. Unknown schema keywords are rejected; this is not full JSON Schema.
+Responses: {ok:true,tool,result,request_id,commons}. Inspect result.valid for validate_schema and coerce_to_schema: HTTP 200 means the tool ran, not that data meets the schema. Invalid arguments return HTTP 400; invalid/expired credentials 401; unknown tool 404; over-limit body 413; quota 429; operator suspension or unavailable persistence 503. Existing Origin restrictions apply. Supported keywords: type, properties, required, additionalProperties (boolean), items, enum, minimum, maximum, minLength, maxLength, title, description. Unknown schema keywords are rejected; this is not full JSON Schema.
 
 ## Tool inputs and semantics
 
@@ -28,4 +32,4 @@ Request body is measured while reading: 24,000 bytes (the pack's original Conten
 
 AGENT_TOOL_CALL_ATTEMPT precedes execution; AGENT_TOOL_CALL_SUCCESS or AGENT_TOOL_CALL_ERROR records the outcome. A request_id links both; MCP_REQUEST also contains tool_request_id for the HTTP operation invoked internally. Arguments and results are represented in private events by keyed HMAC fingerprints, never raw payloads. Inputs/outputs are transient and are not automatically published or retained as artifacts. Retention: 30 days for private events and sessions. Provider runtime-log retention applies separately. Session source and user-agent are declarations, not identity proofs.
 
-Calls share global/network/session quotas, storage caps and operator controls. Each tool normally consumes two RPC quota units; MCP adds its own trace unit. OBSERVATION_ONLY suspends the nine tool executions; FULL_STOP also stops live capability discovery. Static documentation remains readable. Success means execution only, not autonomous agency or independent reuse. Cumulative artifact lineage remains in the separate recipe registry.
+Calls share global/network/session quotas, storage caps and operator controls. Each tool normally consumes two RPC quota units; MCP adds gate and trace units. New application records and optional Commons lookups add units. CONTRIBUTIONS_PAUSED stops only recipe publication. OBSERVATION_ONLY suspends the nine tool executions; FULL_STOP also stops live capability discovery. Static documentation remains readable. Success means execution only, not autonomous agency or independent reuse. Cumulative artifact lineage remains in the separate recipe registry.

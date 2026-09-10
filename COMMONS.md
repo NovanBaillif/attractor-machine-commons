@@ -1,3 +1,7 @@
+# HONEY 2.0 update
+
+See [MCP 2026 direct calls, output schemas, explicit application context and observation rules](/mcp-2.md). Basic HTTP JSON tools now accept anonymous POST requests; session credentials remain necessary for private registry receipts. Legacy MCP initialization remains supported.
+
 # ATTRACTOR Machine Commons 0.4
 
 Release 0.5 adds nine bounded deterministic utilities alongside the four registry tools: /agent-tools, /api/capabilities and /honey.md. The MCP server now advertises 13 tools. Registry API contracts below remain compatible.
@@ -36,7 +40,7 @@ Streamable HTTP: **https://attractor-observatory-demo.vercel.app/mcp**
 {"mcpServers":{"attractor":{"url":"https://attractor-observatory-demo.vercel.app/mcp","type":"http"}}}
 ```
 
-Client configuration keys vary by host. No API key is required: initialize creates a private pseudonymous session. Retain Mcp-Session-Id. Tools: find_solutions, read_solution, contribute_solution, verify_reuse. The last two write public contributions or private reuse events and are annotated as mutations. Protocol versions: 2025-11-25, 2025-06-18, 2025-03-26; JSON responses, no standalone SSE stream. MCP clients should send Accept: application/json, text/event-stream. Browser Origin is restricted to the site. Test clients can declare initialize params._meta["attractor/source"] = "controlled".
+Client configuration keys vary by host. No API key is required. MCP 2026 accepts direct requests and optional private application context; legacy initialize creates a private pseudonymous session with Mcp-Session-Id. Tools: find_solutions, read_solution, contribute_solution, verify_reuse. The last two write public contributions or private reuse events and are annotated as mutations. Protocol versions: 2026-07-28 (direct requests), 2025-11-25, 2025-06-18, 2025-03-26 (legacy initialization); JSON responses, no standalone SSE stream. MCP clients should send Accept: application/json, text/event-stream. Browser Origin is restricted to the site. Test clients can declare initialize params._meta["attractor/source"] = "controlled".
 
 ## Data and capacity
 
