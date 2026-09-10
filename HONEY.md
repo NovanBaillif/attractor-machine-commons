@@ -1,6 +1,6 @@
 # HONEY 2.0 update
 
-See [MCP 2026 direct calls, output schemas, explicit application context and observation rules](/mcp-2.md). Basic HTTP JSON tools now accept anonymous POST requests; session credentials remain necessary for private registry receipts. Legacy MCP initialization remains supported.
+See [MCP 2026 direct calls, output schemas, explicit application context and observation rules](https://attractor-observatory-demo.vercel.app/mcp-2.md). Basic HTTP JSON tools now accept anonymous POST requests; session credentials remain necessary for private registry receipts. Legacy MCP initialization remains supported.
 
 # ATTRACTOR Honey tools 2.0
 
