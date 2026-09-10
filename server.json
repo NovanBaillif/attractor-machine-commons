@@ -1,14 +1,14 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.NovanBaillif/attractor-machine-commons",
-  "title": "ATTRACTOR JSON Tools & Knowledge",
-  "description": "Deterministic JSON extraction, schema coercion, validation and reusable transformation knowledge.",
-  "version": "2.0.0",
+  "title": "ATTRACTOR Verification & State",
+  "description": "Verify structured artifacts, discover local tools and hand off immutable public state.",
+  "version": "3.0.0",
   "repository": {
     "url": "https://github.com/NovanBaillif/attractor-machine-commons",
     "source": "github"
   },
-  "websiteUrl": "https://attractor-observatory-demo.vercel.app/commons",
+  "websiteUrl": "https://attractor-observatory-demo.vercel.app/native.md",
   "remotes": [
     {
       "type": "streamable-http",
